@@ -47,6 +47,20 @@ public class Carro implements Serializable {
     @ManyToMany
     private List<Caracteristica> caracteristicas;
 
+    public Carro(){
+        
+    }
+    
+    public Carro(String placa, Modelo modelo, String cor, String chassi, short ano, Calendar dataDeAquisicao, Integer quilometragem) {
+        this.setPlaca(placa);
+        this.setModelo(modelo);
+        this.setCor(cor);
+        this.setChassi(chassi);
+        this.setAno(ano);
+        this.setDataDeAquisicao(dataDeAquisicao);
+        this.setQuilometragem(quilometragem);        
+    }
+
     public Long getId() {
         return id;
     }

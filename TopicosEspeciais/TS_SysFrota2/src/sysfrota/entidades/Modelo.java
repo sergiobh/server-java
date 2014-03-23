@@ -29,6 +29,15 @@ public class Modelo implements Serializable {
     private Fabricante fabricante = new Fabricante();
     
     private Short ano;
+    
+    public Modelo() {            
+    }
+    
+    public Modelo(String nome, Fabricante fabricante, short ano) {
+        this.setNome(nome);
+        this.setFabricante(fabricante);
+        this.setAno(ano);
+    }
 
     
     public Long getId() {

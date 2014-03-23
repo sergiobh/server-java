@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
 /**
  *
  * @author Sérgio
@@ -23,6 +22,13 @@ public class Caracteristica implements Serializable {
     private Long id;
 
     private String nome;
+
+    public Caracteristica() {
+    }
+
+    public Caracteristica(String nome) {
+        this.setNome(nome);
+    }
 
     public Long getId() {
         return id;

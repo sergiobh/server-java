@@ -18,7 +18,10 @@ import sysfrota.entidades.Fabricante;
 import sysfrota.entidades.Modelo;
 import sysfrota.entidades.ResumoCarro;
 import sysfrota.persistence.JPAUtil;
+import sysfrota.persistence.dao.CaracteristicaDAO;
+import sysfrota.persistence.dao.CarroDAO;
 import sysfrota.persistence.dao.FabricanteDAO;
+import sysfrota.persistence.dao.ModeloDAO;
 
 /**
  *
@@ -27,7 +30,10 @@ import sysfrota.persistence.dao.FabricanteDAO;
 public class Bootstrap {
 
     private static FabricanteDAO fabricanteDAO = new FabricanteDAO();
-    
+    private static ModeloDAO modeloDAO = new ModeloDAO();
+    private static CaracteristicaDAO caracteristicaDAO = new CaracteristicaDAO();
+    private static CarroDAO carroDAO = new CarroDAO();
+
     /**
      * @param args the command line arguments
      * @throws java.lang.Exception
@@ -36,125 +42,142 @@ public class Bootstrap {
 
         EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
-     
+
+        /*
+         * FABRICANTES
+         */
         //Fabricante Fiat
         Fabricante fiat = new Fabricante("Fiat");
         fiat = fabricanteDAO.salvar(fiat);
-        
-        
-        JPAUtil.close();
 
-        
-        
+        //Fabricante Volksvagen
+        Fabricante vw = new Fabricante("Volksvagen");
+        vw = fabricanteDAO.salvar(vw);
+
         /*
-        /* Antigo esta abaixo
-        */
-        
-        
-/*        EntityManagerFactory emf = Persistence.createEntityManagerFactory("db_sysfrota");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-*/
-        
-        //cria Características
-        Caracteristica quatroPortas = new Caracteristica();
-        quatroPortas.setNome("Quatro portas");
-        em.persist(quatroPortas);
-
-        Caracteristica ar = new Caracteristica();
-        ar.setNome("Ar condicionado");
-        em.persist(ar);
-
-        Caracteristica direcao = new Caracteristica();
-        direcao.setNome("Direção Hidráulica");
-        em.persist(direcao);
-
-
+         * MODELOS
+         */
         //Cria o Modelo Fiat Uno
-        Modelo fiatUno = new Modelo();
-        fiatUno.setNome("Uno");
-        fiatUno.setFabricante(fiat);
-        fiatUno.setAno((short) 2011);
-        em.persist(fiatUno);
+        Modelo fiatUno = new Modelo("Uno", fiat, (short) 2011);
+        fiatUno = modeloDAO.salvar(fiatUno);
 
-        //Cria um Uno
-        Carro uno = new Carro();
-        uno.setPlaca("ABC-0001");
-        uno.setModelo(fiatUno);
-        uno.setCor("Prata");
-        uno.setChassi("A1B2C3456789DEF");
-        uno.setAno((short) 2010);
-        uno.setDataDeAquisicao(Calendar.getInstance());
-        uno.setQuilometragem(200000);
+        //Cria o Modelo Volksvagen Gol
+        Modelo vwGol = new Modelo("Gol", vw, (short) 1998);
+        vwGol = modeloDAO.salvar(vwGol);
+
+        /*
+         * CARACTERISTICAS
+         */
+        // Quatro Portas
+        Caracteristica quatroPortas = new Caracteristica("Quatro portas");
+        quatroPortas = caracteristicaDAO.salvar(quatroPortas);
+
+        // Ar Condicionado
+        Caracteristica ar = new Caracteristica("Ar condicionado");
+        ar = caracteristicaDAO.salvar(ar);
+
+        // Direção Hidráulica
+        Caracteristica direcao = new Caracteristica("Direção Hidráulica");
+        direcao = caracteristicaDAO.salvar(direcao);
+
+        /*
+         * CARROS
+         */
+        // Cria um Uno
+        Carro uno = new Carro("ABC-0001", fiatUno, "Prata", "A1B2C3456789DEF", (short) 2010, Calendar.getInstance(), 200000);
 
         uno.setCaracteristicas(new LinkedList<Caracteristica>());
         uno.getCaracteristicas().add(quatroPortas);
         uno.getCaracteristicas().add(ar);
 
-        em.persist(uno);
+        uno = carroDAO.salvar(uno);
 
-        //Fabricante Volksvagen
-        Fabricante vw = new Fabricante();
-        vw.setNome("Volksvagen");
-        em.persist(vw);
-
-        //Cria o Modelo Volksvagen Gol
-        Modelo vwGol = new Modelo();
-        vwGol.setNome("Gol");
-        vwGol.setFabricante(vw);
-        vwGol.setAno((short) 1998);
-        em.persist(vwGol);
-
-        Carro gol = new Carro();
-        gol.setPlaca("DEF-0002");
-        gol.setModelo(vwGol);
-        gol.setCor("Azul");
-        gol.setChassi("A65D4AS65D4AS");
-        gol.setAno((short) 1994);
-        gol.setDataDeAquisicao(Calendar.getInstance());
-        gol.setQuilometragem(300000);
+        // Cria um Gol
+        Carro gol = new Carro("DEF-0002", vwGol, "Azul", "A65D4AS65D4AS", (short) 1994, Calendar.getInstance(), 300000);
 
         gol.setCaracteristicas(new LinkedList<Caracteristica>());
         gol.getCaracteristicas().add(quatroPortas);
         gol.getCaracteristicas().add(direcao);
 
-        em.persist(gol);
+        gol = carroDAO.salvar(gol);
 
-        //Cria o Modelo Volksvagen Gol
-        Modelo fiatPalio = new Modelo();
-        fiatPalio.setNome("Palio");
-        fiatPalio.setFabricante(fiat);
-        fiatPalio.setAno((short) 1995);
-        em.persist(fiatPalio);
+        Carro g5 = new Carro("GHI-0003", vwGol, "Prata", "ADHJASFSS4F5465", (short) 2011, Calendar.getInstance(), 40000);
 
-        Carro palio = new Carro();
-        palio.setPlaca("GHI-0003");
-        palio.setModelo(fiatPalio);
-        palio.setCor("Verde");
-        palio.setChassi("ADHJASFSS4F5465");
-        palio.setAno((short) 1991);
-        palio.setDataDeAquisicao(Calendar.getInstance());
-        palio.setQuilometragem(400000);
+        g5.setCaracteristicas(new LinkedList<Caracteristica>());
+        g5.getCaracteristicas().add(quatroPortas);
+        g5.getCaracteristicas().add(ar);
+        g5.getCaracteristicas().add(direcao);
 
-        palio.setCaracteristicas(new LinkedList<Caracteristica>());
-        palio.getCaracteristicas().add(quatroPortas);
-        palio.getCaracteristicas().add(ar);
-        palio.getCaracteristicas().add(direcao);
+        g5 = carroDAO.salvar(g5);
 
-        em.persist(palio);
-
-        em.getTransaction().commit();
         
-        Query query = em.createQuery("SELECT NEW sysfrota.entidades.ResumoCarro(c.placa, m.nome, f.nome) FROM Carro c JOIN c.modelo m JOIN m.fabricante f");
-        List<ResumoCarro> resumosCarro = query.getResultList();
-        for(ResumoCarro resumo:resumosCarro){
-            System.out.println(resumo);
+        /*
+         * TRANSACTIONS
+         */
+        /*
+        em.getTransaction().begin();
+
+        try {
+            // aqui vão as operações de persitência que fazem parte da transação
+            fabricanteDAO.salvar(fiat);
+            fabricanteDAO.salvar(vw);
+            
+            modeloDAO.salvar(fiatUno);
+            modeloDAO.salvar(vwGol);
+
+            caracteristicaDAO.salvar(quatroPortas);
+            caracteristicaDAO.salvar(ar);
+            caracteristicaDAO.salvar(direcao);
+
+
+            carroDAO.salvar(uno);
+            carroDAO.salvar(gol);
+            carroDAO.salvar(g5);
+            
+            em.getTransaction().commit();
+        } catch (RuntimeException e) {
+            em.getTransaction().rollback();
+        }
+        /*
+        
+        /*
+         * EXIBIÇÃO DAS LISTAS
+         */
+        // Lista os Fabricantes por Ordem de Nome
+        List<Fabricante> listaFabricantes = fabricanteDAO.listarTodos();
+
+        for (Fabricante fabricante : listaFabricantes) {
+            System.out.println("Id=" + fabricante.getId() + "; Nome=" + fabricante.getNome());
         }
 
+        // Lista os Modelos por Ordem de Ano e Nome
+        List<Modelo> listaModelos = modeloDAO.listarTodos();
+
+        for (Modelo modelo : listaModelos) {
+            System.out.println("Id=" + modelo.getId() + "; Ano=" + modelo.getAno() + "; Nome=" + modelo.getNome());
+        }
+
+        // Listar todos os modelos de um determinado Fabricante num dado Ano
+        List<Modelo> listaFabricanteAno = modeloDAO.listarDoFabricanteNoAno(vw, (short) 1998);
+
+        for (Modelo modelo : listaFabricanteAno) {
+            System.out.println("Id=" + modelo.getId() + "; Ano=" + modelo.getAno() + "; Nome=" + modelo.getNome());
+        }
+
+        // Lista as Caracteristicas por Ordem de Nome
+        List<Caracteristica> listaCaracteristicas = caracteristicaDAO.listarTodos();
+
+        for (Caracteristica caracteristica : listaCaracteristicas) {
+            System.out.println("Id=" + caracteristica.getId() + "; Nome=" + caracteristica.getNome());
+        }
+
+        /*
+         /* FIM DO SISTEMA
+         */
         System.out.println("Pressione uma tecla para continuar...");
         System.in.read();
-        em.close();
-        emf.close();
+
+        JPAUtil.close();
     }
 
 }
