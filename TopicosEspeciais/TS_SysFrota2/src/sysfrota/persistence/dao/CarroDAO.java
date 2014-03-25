@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import sysfrota.entidades.Carro;
+import sysfrota.entidades.Modelo;
 import sysfrota.persistence.JPAUtil;
 
 /**
@@ -36,6 +37,39 @@ public class CarroDAO {
     public List<Carro> listarTodos() {
         Query query = em.createQuery("SELECT c FROM Carro c ORDER BY nome");
         return query.getResultList();
+    }
+
+    /*
+     * Busca carro por modelo
+     */
+    public List<Carro> carrosPorModelo(Modelo modelo) {
+        Query query = em.createQuery("SELECT c FROM Carro c WHERE c.modelo = :modelo ORDER BY c.ano");
+        query.setParameter("modelo", modelo);
+
+        List<Carro> lista = query.getResultList();
+        return lista;
+    }
+
+    /*
+     * Busca carro que a Placa inicia com as letras informadas
+     */
+    public List<Carro> carroComPlaca(String placaInicial) {
+        Query query = em.createQuery("FROM Carro c WHERE c.placa LIKE :placa");
+        query.setParameter("placa", "%" + placaInicial + "%");
+
+        List<Carro> lista = query.getResultList();
+        return lista;
+    }
+
+    /*
+     * Busca carro que a Cor seja a informada
+     */
+    public List<Carro> carroComCor(String cor) {
+        Query query = em.createQuery("FROM Carro c WHERE c.cor = :cor");
+        query.setParameter("cor", cor);
+
+        List<Carro> lista = query.getResultList();
+        return lista;
     }
 
     public Long somaQuilometragem() {

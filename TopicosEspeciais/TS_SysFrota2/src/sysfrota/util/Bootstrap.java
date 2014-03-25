@@ -84,7 +84,7 @@ public class Bootstrap {
          * CARROS
          */
         // Cria um Uno
-        Carro uno = new Carro("ABC-0001", fiatUno, "Prata", "A1B2C3456789DEF", (short) 2010, Calendar.getInstance(), 200000);
+        Carro uno = new Carro("ABC-0001", fiatUno, "Prata", "A1B2C3456789DEF", (short) 2014, Calendar.getInstance(), 200000);
 
         uno.setCaracteristicas(new LinkedList<Caracteristica>());
         uno.getCaracteristicas().add(quatroPortas);
@@ -110,37 +110,36 @@ public class Bootstrap {
 
         g5 = carroDAO.salvar(g5);
 
-        
         /*
          * TRANSACTIONS
          */
         /*
-        em.getTransaction().begin();
+         em.getTransaction().begin();
 
-        try {
-            // aqui vão as operações de persitência que fazem parte da transação
-            fabricanteDAO.salvar(fiat);
-            fabricanteDAO.salvar(vw);
+         try {
+         // aqui vão as operações de persitência que fazem parte da transação
+         fabricanteDAO.salvar(fiat);
+         fabricanteDAO.salvar(vw);
             
-            modeloDAO.salvar(fiatUno);
-            modeloDAO.salvar(vwGol);
+         modeloDAO.salvar(fiatUno);
+         modeloDAO.salvar(vwGol);
 
-            caracteristicaDAO.salvar(quatroPortas);
-            caracteristicaDAO.salvar(ar);
-            caracteristicaDAO.salvar(direcao);
+         caracteristicaDAO.salvar(quatroPortas);
+         caracteristicaDAO.salvar(ar);
+         caracteristicaDAO.salvar(direcao);
 
 
-            carroDAO.salvar(uno);
-            carroDAO.salvar(gol);
-            carroDAO.salvar(g5);
+         carroDAO.salvar(uno);
+         carroDAO.salvar(gol);
+         carroDAO.salvar(g5);
             
-            em.getTransaction().commit();
-        } catch (RuntimeException e) {
-            em.getTransaction().rollback();
-        }
-        /*
+         em.getTransaction().commit();
+         } catch (RuntimeException e) {
+         em.getTransaction().rollback();
+         }
+         /*
         
-        /*
+         /*
          * EXIBIÇÃO DAS LISTAS
          */
         // Lista os Fabricantes por Ordem de Nome
@@ -164,12 +163,57 @@ public class Bootstrap {
             System.out.println("Id=" + modelo.getId() + "; Ano=" + modelo.getAno() + "; Nome=" + modelo.getNome());
         }
 
+        // Lista de Carro do modelo VW por Ordem de Ano
+        List<Carro> listaCarros = carroDAO.carrosPorModelo(vwGol);
+
+        for (Carro carro : listaCarros) {
+            System.out.println("Id=" + carro.getId() + "; Ano de Fabricação=" + carro.getAno() + "; Nome=" + carro.getPlaca() + "; Chassi=" + carro.getChassi() + "; Placa=" + carro.getPlaca());
+        }
+
+        // Lista de Carro Iniciados com as Letras da Placa
+        List<Carro> listaCarrosPlaca = carroDAO.carroComPlaca("ABC");
+
+        for (Carro carro : listaCarrosPlaca) {
+            System.out.println("Id=" + carro.getId() + "; Ano de Fabricação=" + carro.getAno() + "; Nome=" + carro.getPlaca() + "; Chassi=" + carro.getChassi() + "; Placa=" + carro.getPlaca());
+        }
+
+        // Lista de Carro com Cor informada
+        List<Carro> listaCarrosCor = carroDAO.carroComCor("Azul");
+
+        for (Carro carro : listaCarrosCor) {
+            System.out.println("Id=" + carro.getId() + "; Ano de Fabricação=" + carro.getAno() + "; Nome=" + carro.getPlaca() + "; Chassi=" + carro.getChassi() + "; Placa=" + carro.getPlaca());
+        }
+
         // Lista as Caracteristicas por Ordem de Nome
         List<Caracteristica> listaCaracteristicas = caracteristicaDAO.listarTodos();
 
         for (Caracteristica caracteristica : listaCaracteristicas) {
             System.out.println("Id=" + caracteristica.getId() + "; Nome=" + caracteristica.getNome());
         }
+
+        // Quantidade de Modelos
+        Long qtdModeloDoFabricante = fabricanteDAO.quantidadeModelos(fiat);
+        System.out.println("O Fabricante " + fiat.getNome() + " possui " + qtdModeloDoFabricante + " modelo(s)");
+        
+        // Soma da Quilometragem dos Veiculos
+        Long somaKmFrota = carroDAO.somaQuilometragem();
+        System.out.println("A soma das quilometragens dos veiculos da frota é: " + somaKmFrota);
+        
+        // Carro com maior quilometragem
+        List<Carro> listaCarroMaioresKm = carroDAO.carrosComMaiorQuilometragem();
+        
+        for (Carro carro : listaCarroMaioresKm) {
+            System.out.println("Id=" + carro.getId() + "; Ano de Fabricação=" + carro.getAno() + "; Nome=" + carro.getPlaca() + "; Chassi=" + carro.getChassi() + "; Placa=" + carro.getPlaca() + "; Quilometragem=" + carro.getQuilometragem());
+        }
+
+        // Lista de Fabricantes VIgentes
+        List<Fabricante> fabricante = fabricanteDAO.fabricantesVigentes();
+        
+        for (Fabricante fabricanteVigente : fabricante) {
+            System.out.println("Id=" + fabricanteVigente.getId() + "; Nome=" + fabricanteVigente.getNome());
+        }
+        
+        em.getTransaction().commit();
 
         /*
          /* FIM DO SISTEMA
