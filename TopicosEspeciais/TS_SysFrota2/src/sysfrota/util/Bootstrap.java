@@ -14,6 +14,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import sysfrota.entidades.Caracteristica;
 import sysfrota.entidades.Carro;
+import sysfrota.entidades.CarroModelo;
 import sysfrota.entidades.Fabricante;
 import sysfrota.entidades.Modelo;
 import sysfrota.entidades.ResumoCarro;
@@ -212,6 +213,17 @@ public class Bootstrap {
         for (Fabricante fabricanteVigente : fabricante) {
             System.out.println("Id=" + fabricanteVigente.getId() + "; Nome=" + fabricanteVigente.getNome());
         }
+        
+        /*FabricanteDAO fabricanteDelete = new FabricanteDAO();
+        fabricanteDelete.remover(fiat);*/
+        
+        // Busca a Placa do Carro e seu modelo
+        carroDAO.carroModelo(uno);
+        //List<CarroModelo> carroModelo = carroDAO.carroModelo(uno);
+        
+        /*for (CarroModelo carroModelos : carroModelo) {
+            System.out.println("Placa=" + carroModelos.getPlaca() + "; Modelo=" + carroModelos.getPlaca());
+        }*/
         
         em.getTransaction().commit();
 

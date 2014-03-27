@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import sysfrota.entidades.Carro;
+import sysfrota.entidades.CarroModelo;
 import sysfrota.entidades.Modelo;
 import sysfrota.persistence.JPAUtil;
 
@@ -72,6 +73,32 @@ public class CarroDAO {
         return lista;
     }
 
+    /*
+     * Busca a Placa do Carro e Seu Modelo
+     */
+    //public List<CarroModelo> carroModelo(Carro carro) {
+    public void carroModelo(Carro carro) {
+        //Query query = em.createQuery("SELECT NEW sysfrota.entidades.CarroModelo(c.placa, m.nome) FROM Carro c JOIN c.Modelo m WHERE c.carro = :carro");
+        Query query = em.createQuery("SELECT NEW sysfrota.entidades.carroModelo(c.placa, m.nome) FROM Carro c JOIN c.modelo m WHERE c.carro = :carro");
+        query.setParameter("carro", carro);
+
+        query.getSingleResult();
+        //query.getResultList();
+    }
+
+    /*
+
+    SELECT NEW sysfrota.entidades.CarroModelo(c.placa, m.nome) FROM Carro c JOIN c.Modelo m WHERE c.carro = :carro
+    
+    SELECT NEW com.company.PublisherInfo(pub.id, pub.revenue, mag.price)
+    
+    
+    SELECT DISTINCT mag FROM Magazine mag
+    JOIN mag.articles art
+    JOIN art.author auth
+    WHERE auth.lastName = 'Grisham'
+    */
+    
     public Long somaQuilometragem() {
         Query query = em.createQuery("SELECT SUM(c.quilometragem) FROM Carro c");
         Long soma = (Long) query.getSingleResult();
