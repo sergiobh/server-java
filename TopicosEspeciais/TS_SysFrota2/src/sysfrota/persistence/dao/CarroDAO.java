@@ -77,13 +77,14 @@ public class CarroDAO {
      * Busca a Placa do Carro e Seu Modelo
      */
     //public List<CarroModelo> carroModelo(Carro carro) {
-    public void carroModelo(Carro carro) {
+    public CarroModelo carroModelo(Carro carro) {
         //Query query = em.createQuery("SELECT NEW sysfrota.entidades.CarroModelo(c.placa, m.nome) FROM Carro c JOIN c.Modelo m WHERE c.carro = :carro");
-        Query query = em.createQuery("SELECT NEW sysfrota.entidades.carroModelo(c.placa, m.nome) FROM Carro c JOIN c.modelo m WHERE c.carro = :carro");
+        Query query = em.createQuery("SELECT NEW sysfrota.entidades.CarroModelo(c.placa, c.modelo.nome) FROM Carro c WHERE c = :carro"); 
         query.setParameter("carro", carro);
 
-        query.getSingleResult();
-        //query.getResultList();
+        CarroModelo carroModelo = (CarroModelo) query.getSingleResult();
+        
+        return carroModelo;
     }
 
     /*

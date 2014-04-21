@@ -71,5 +71,9 @@ public class Modelo implements Serializable {
     public void setAno(Short ano) {
         this.ano = ano;
     }
+
+    public String getModelo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

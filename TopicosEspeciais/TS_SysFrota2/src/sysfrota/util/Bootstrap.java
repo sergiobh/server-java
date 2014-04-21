@@ -218,10 +218,12 @@ public class Bootstrap {
         fabricanteDelete.remover(fiat);*/
         
         // Busca a Placa do Carro e seu modelo
-        carroDAO.carroModelo(uno);
-        //List<CarroModelo> carroModelo = carroDAO.carroModelo(uno);
+        CarroModelo carroModelo = carroDAO.carroModelo(g5);
+        System.out.println("Placa=" + carroModelo.getPlaca() + "; Modelo=" + carroModelo.getNome());
         
-        /*for (CarroModelo carroModelos : carroModelo) {
+        /*List<CarroModelo> carroModelo = carroDAO.carroModelo(uno);
+        
+        for (CarroModelo carroModelos : carroModelo) {
             System.out.println("Placa=" + carroModelos.getPlaca() + "; Modelo=" + carroModelos.getPlaca());
         }*/
         

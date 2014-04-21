@@ -17,6 +17,9 @@ public class CarroModelo {
     
     private String nome;
 
+    public CarroModelo(){
+    }
+    
     public CarroModelo(String Placa, String Nome) {
         this.placa = Placa;
         this.nome = Nome;
