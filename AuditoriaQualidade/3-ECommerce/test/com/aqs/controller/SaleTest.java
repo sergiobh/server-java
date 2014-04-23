@@ -15,11 +15,9 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Sérgio
+ * @author edgard.cardoso
  */
 public class SaleTest {
-    
-    Sale sale;
     
     public SaleTest() {
     }
@@ -34,32 +32,10 @@ public class SaleTest {
     
     @Before
     public void setUp() {
-        sale = new Sale();
     }
     
     @After
     public void tearDown() {
-    }
-
-    /**
-     * Test of getTotalSaleValueWithoutDiscount method, of class Sale.
-     */
-    @Test
-    public void testGetTotalSaleValueWithoutDiscount() {
-    }
-
-    /**
-     * Test of setDiscount method, of class Sale.
-     */
-    @Test
-    public void testSetDiscount() {
-    }
-
-    /**
-     * Test of getTotalSaleValueWithDiscount method, of class Sale.
-     */
-    @Test
-    public void testGetTotalSaleValueWithDiscount() {
     }
     
 }

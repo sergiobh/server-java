@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.aqs.controller;
 
 import com.aqs.model.Product;
+import com.aqs.system.ProductNotFoundException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,30 +16,28 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Sérgio
+ * @author edgard.cardoso
  */
 public class ShoppingCartTest {
-    
-    ShoppingCart shoppingCart;
-    Product product;
-    
+
+    private ShoppingCart shoppingCart;
+
     public ShoppingCartTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
-        shoppingCart = new ShoppingCart();
-        product = new Product("Celular", 1000.00);
+        this.shoppingCart = new ShoppingCart();
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -49,9 +47,12 @@ public class ShoppingCartTest {
      */
     @Test
     public void testGetBalance() {
-        //System.out.println(shoppingCart.getBalance());
-        assertEquals(0.00, shoppingCart.getBalance());
+        shoppingCart.addItem(new Product("CD", 10.99));
+        shoppingCart.addItem(new Product("DVD", 19.90));
+        shoppingCart.addItem(new Product("Livro", 49.90));
+        shoppingCart.addItem(new Product("pen drive", 49.00));
         
+        assertEquals("O valor deveria ser 129.79" , 129.79, shoppingCart.getBalance(), 0.01d);
     }
 
     /**
@@ -59,16 +60,49 @@ public class ShoppingCartTest {
      */
     @Test
     public void testAddItem() {
-        
-        addItem();
-        
+        shoppingCart.addItem(new Product("CD", 10.99));
+        assertEquals("deveria ter 1 produto", 1, shoppingCart.getItemCount());
+
+        shoppingCart.addItem(new Product("DVD", 19.90));
+        shoppingCart.addItem(new Product("Livro", 49.90));
+        shoppingCart.addItem(new Product("pen drive", 49.00));
+
+        assertEquals("Deveria ter 4 produtos", 4, shoppingCart.getItemCount());
     }
 
     /**
      * Test of removeItem method, of class ShoppingCart.
      */
     @Test
-    public void testRemoveItem() throws Exception {
+    public void testRemoveItem() {
+        try {
+            Product dvd = new Product("DVD", 19.90);
+            Product livro = new Product("Livro", 49.90);
+            Product pendrive = new Product("pen drive", 49.00);
+
+            shoppingCart.addItem(dvd);
+            shoppingCart.addItem(livro);
+            shoppingCart.addItem(pendrive);
+
+            assertEquals("Deveria ter 3 produtos", 3, shoppingCart.getItemCount());
+
+            shoppingCart.removeItem(dvd);
+            shoppingCart.removeItem(pendrive);
+
+            assertEquals("Deveria ter 1 produtos", 1, shoppingCart.getItemCount());
+
+            shoppingCart.removeItem(livro);
+            assertTrue("Deveria estar vazio", shoppingCart.isEmpty());
+
+            shoppingCart.removeItem(dvd);
+            fail("nao deveria ter passado aqui");
+
+        } catch (ProductNotFoundException pnfe) {
+            // entao esta tudo certo        
+        } catch (Exception e) {
+            fail("erro inesperado " + e.getMessage());
+        }
+
     }
 
     /**
@@ -91,5 +125,5 @@ public class ShoppingCartTest {
     @Test
     public void testIsEmpty() {
     }
-    
+
 }
