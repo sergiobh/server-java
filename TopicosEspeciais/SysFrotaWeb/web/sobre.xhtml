@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="corpo">
+        <h1><h:outputText value="Sobre" /></h1>
+        <ul>
+            <li>Autor: <h:outputText value="Sérgio Macedo e Juliana Vieira" /></li>
+            <li>Email: <h:outputText value="sergiobh@gmail.com e juvieira@outlook.com" /></li>
+            <li>Data da criação do sistema: <h:outputText value="25/04/2014" /></li>
+            <li>Nome da disciplina: <h:outputText value="Tópicos Especiais" /></li>
+        </ul>
+        <h:form>
+            <h:commandLink action="#{sobreMB.voltar()}" value="Voltar" />
+        </h:form>
+    </ui:define>
+</ui:composition>

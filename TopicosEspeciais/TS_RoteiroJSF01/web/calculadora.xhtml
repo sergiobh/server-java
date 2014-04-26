@@ -8,10 +8,10 @@
     </h:head>
     <h:body>
         <h1>Calculadora</h1>
-        <h:messages />
+        <h:messages style="color:red" />
         <h:form>
             <h:inputText value="#{calculadoraMB.termoA}" size="4" label="Primeiro termo"/>
-            
+            #{calculadoraMB.operador}
             <h:inputText value="#{calculadoraMB.termoB}" size="4" label="Segundo termo"/>
             =
             <h:outputText value="#{calculadoraMB.valor}" />

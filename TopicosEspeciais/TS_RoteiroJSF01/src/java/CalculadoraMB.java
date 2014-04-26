@@ -1,5 +1,7 @@
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 public class CalculadoraMB {
@@ -7,26 +9,40 @@ public class CalculadoraMB {
     private Integer termoA = 0;
     private Integer termoB = 0;
     private Integer valor = 0;
+    private String operador = "";
 
     public void somar() {
         valor = termoA + termoB;
+        this.setOperador("+");
     }
 
     public void subtrair() {
         valor = termoA - termoB;
+        this.setOperador("-");
     }
 
     public void multiplicar() {
         valor = termoA * termoB;
+        this.setOperador("*");
     }
 
     public void dividir() {
-        if(termoB != 0){
+        if (termoB != 0) {
             valor = termoA / termoB;
+        } else {
+            valor = null;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Não permite divisão por zero!"));
         }
-        else{
-            valor = 0;
-        }
+
+        this.setOperador("/");
+    }
+
+    public String getOperador() {
+        return operador;
+    }
+
+    public void setOperador(String operador) {
+        this.operador = operador;
     }
 
     public Integer getValor() {
