@@ -18,35 +18,35 @@ import sysfrota.persistence.JPAUtil;
  */
 public class ModeloDAO {
 
-    private EntityManager em = JPAUtil.getEntityManager();
+    //private EntityManager em = JPAUtil.getEntityManager();
 
     public Modelo salvar(Modelo modelo) {
-        Modelo retorno = em.merge(modelo);
+        Modelo retorno = JPAUtil.getEntityManager().merge(modelo);
         return retorno;
     }
 
     public Modelo carregarPeloId(Long id) {
-        return em.find(Modelo.class, id);
+        return JPAUtil.getEntityManager().find(Modelo.class, id);
     }
 
     public void remover(Modelo modelo) {
-        em.remove(em.find(Modelo.class, modelo.getId()));
-        em.flush();
+        JPAUtil.getEntityManager().remove(JPAUtil.getEntityManager().find(Modelo.class, modelo.getId()));
+        JPAUtil.getEntityManager().flush();
     }
 
     public List<Modelo> listarTodos() {
-        Query query = em.createQuery("SELECT m FROM Modelo m ORDER BY ano, nome");
+        Query query = JPAUtil.getEntityManager().createQuery("SELECT m FROM Modelo m ORDER BY ano, nome");
         return query.getResultList();
     }
 
     public List<Modelo> listarDoFabricante(Fabricante fabricante) {
-        Query query = em.createQuery("FROM Modelo m WHERE m.fabricante = :f ORDER BY m.nome");
+        Query query = JPAUtil.getEntityManager().createQuery("FROM Modelo m WHERE m.fabricante = :f ORDER BY m.nome");
         query.setParameter("f", fabricante);
         return query.getResultList();
     }
 
     public List<Modelo> listarDoFabricanteNoAno(Fabricante fabricante, Short ano) {
-        Query query = em.createQuery("FROM Modelo m WHERE m.fabricante = :f AND m.ano = :ano ORDER BY m.nome");
+        Query query = JPAUtil.getEntityManager().createQuery("FROM Modelo m WHERE m.fabricante = :f AND m.ano = :ano ORDER BY m.nome");
         query.setParameter("f", fabricante);
         query.setParameter("ano", ano);
         return query.getResultList();

@@ -28,11 +28,11 @@ public class OpenSessionAndTransactionInView implements Filter {
                 tx.rollback();
             }
             throw new ServletException(e);
-        } finally {
+        } /*finally {
                if(em.isOpen()){
                    em.close();
                }
-        }
+        }*/
     }
 
     @Override

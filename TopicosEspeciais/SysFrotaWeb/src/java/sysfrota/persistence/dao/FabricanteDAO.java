@@ -20,36 +20,36 @@ import sysfrota.persistence.JPAUtil;
  */
 public class FabricanteDAO {
 
-    private EntityManager em = JPAUtil.getEntityManager();
+    //private EntityManager em = JPAUtil.getEntityManager();
 
     public Fabricante salvar(Fabricante fabricante) {
-        Fabricante retorno = em.merge(fabricante);
+        Fabricante retorno = JPAUtil.getEntityManager().merge(fabricante);
         return retorno;
     }
 
     public Fabricante carregarPeloId(Long id) {
-        return em.find(Fabricante.class, id);
+        return JPAUtil.getEntityManager().find(Fabricante.class, id);
     }
 
     public void remover(Fabricante fabricante) {
-        em.remove(em.find(Fabricante.class, fabricante.getId()));
-        em.flush();
+        JPAUtil.getEntityManager().remove(JPAUtil.getEntityManager().find(Fabricante.class, fabricante.getId()));
+        JPAUtil.getEntityManager().flush();
     }
 
     public List<Fabricante> listarTodos() {
-        Query query = em.createQuery("SELECT f FROM Fabricante f ORDER BY nome");
+        Query query = JPAUtil.getEntityManager().createQuery("SELECT f FROM Fabricante f ORDER BY nome");
         return query.getResultList();
     }
 
     public Long quantidadeModelos(Fabricante fabricante) {
-        Query query = em.createQuery("SELECT COUNT(m) FROM Modelo m WHERE m.fabricante = :f");
+        Query query = JPAUtil.getEntityManager().createQuery("SELECT COUNT(m) FROM Modelo m WHERE m.fabricante = :f");
         query.setParameter("f", fabricante);
         Long quantidade = (Long) query.getSingleResult();
         return quantidade;
     }
 
     public List<Fabricante> fabricantesVigentes() {
-        Query query = em.createQuery("FROM Fabricante f WHERE EXISTS "
+        Query query = JPAUtil.getEntityManager().createQuery("FROM Fabricante f WHERE EXISTS "
                 + "(FROM Carro c WHERE c.modelo.fabricante = f AND c.ano = :a)");
         short anoVigente = (short) Calendar.getInstance().get(Calendar.YEAR);
         query.setParameter("a", anoVigente);
