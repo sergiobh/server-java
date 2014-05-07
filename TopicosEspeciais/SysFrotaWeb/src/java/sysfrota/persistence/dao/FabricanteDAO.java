@@ -32,7 +32,8 @@ public class FabricanteDAO {
     }
 
     public void remover(Fabricante fabricante) {
-        em.remove(fabricante);
+        em.remove(em.find(Fabricante.class, fabricante.getId()));
+        em.flush();
     }
 
     public List<Fabricante> listarTodos() {

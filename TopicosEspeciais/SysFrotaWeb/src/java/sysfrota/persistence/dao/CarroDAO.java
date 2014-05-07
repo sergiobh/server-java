@@ -32,7 +32,8 @@ public class CarroDAO {
     }
 
     public void remover(Carro carro) {
-        em.remove(carro);
+        em.remove(em.find(Carro.class, carro.getId()));
+        em.flush();
     }
 
     public List<Carro> listarTodos() {

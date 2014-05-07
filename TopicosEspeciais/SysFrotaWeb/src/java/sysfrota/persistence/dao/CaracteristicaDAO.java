@@ -30,7 +30,8 @@ public class CaracteristicaDAO {
     }
 
     public void remover(Caracteristica caracteristica) {
-        em.remove(caracteristica);
+        em.remove(em.find(Caracteristica.class, caracteristica.getId()));
+        em.flush();
     }
 
     public List<Caracteristica> listarTodos() {

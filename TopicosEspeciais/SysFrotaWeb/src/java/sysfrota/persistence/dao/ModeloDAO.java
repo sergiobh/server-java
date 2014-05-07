@@ -30,7 +30,8 @@ public class ModeloDAO {
     }
 
     public void remover(Modelo modelo) {
-        em.remove(modelo);
+        em.remove(em.find(Modelo.class, modelo.getId()));
+        em.flush();
     }
 
     public List<Modelo> listarTodos() {
@@ -43,8 +44,8 @@ public class ModeloDAO {
         query.setParameter("f", fabricante);
         return query.getResultList();
     }
-    
-    public List<Modelo> listarDoFabricanteNoAno(Fabricante fabricante, Short ano){
+
+    public List<Modelo> listarDoFabricanteNoAno(Fabricante fabricante, Short ano) {
         Query query = em.createQuery("FROM Modelo m WHERE m.fabricante = :f AND m.ano = :ano ORDER BY m.nome");
         query.setParameter("f", fabricante);
         query.setParameter("ano", ano);
