@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>SysFrota</title>
+    </h:head>
+    <h:body>
+        <div class="cabecalho">
+            <h1>SysFrota</h1>
+            <div clas="menu">
+                <h:form>
+                    <h:commandLink action="index.xhtml" value="Inicio"/> |
+                    <h:commandLink action="sobre.xhtml" value="Sobre"/> |
+                    <h:commandLink action="fabricanteList.xhtml" value="Lista de Fabricantes" />
+                </h:form>
+            </div>
+        </div>
+        <div class="corpo">
+            <h:messages />
+            <ui:insert name="corpo"></ui:insert>
+        </div>
+        <div class="rodape">
+            <hr/>
+            SysFrotaWeb - Maio/2014
+        </div>
+    </h:body>
+</html>

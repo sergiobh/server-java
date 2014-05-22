@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml">
+    <ui:define name="corpo">
+        <h:form>
+            <h:commandButton action="#{fabricanteMB.criar()}" value="Novo fabricante" />
+            <h2>Lista de fabricantes</h2>
+            <h:dataTable value="#{fabricanteMB.lista}" var="f" border="1">
+                <h:column>
+                    <f:facet name="header">Id</f:facet>
+                        #{f.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nome</f:facet>
+                        #{f.nome}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Opções</f:facet>
+                    <h:commandButton action="#{fabricanteMB.editar(f)}" value="Editar" />
+                    <h:commandButton id="confirm" value="Remover" action="#{fabricanteMB.remover(f)}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
