@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sysfrota.entidades;
 
 import java.io.Serializable;
@@ -17,11 +16,11 @@ import javax.persistence.Id;
  */
 @Entity
 public class Fabricante implements Serializable {
-    
+
     @Id
     @GeneratedValue
     private Long id;
-    
+
     private String nome;
 
     public Fabricante() {
@@ -46,6 +45,13 @@ public class Fabricante implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Fabricante)) {
+            return false;
+        }
+        Fabricante other = (Fabricante) o;
+        return this.getId().equals(other.getId());
+    }
 }
